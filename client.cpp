@@ -29,7 +29,10 @@ int main(int argc, char *argv[])
     perror("Error connecting to server");
     exit(-1);
   }
-
-  char *hello = "hello world";
-  send(clientfd, hello, strlen(hello), 0);
+  char buffer[256] = {0};
+  while (true)
+  {
+    fgets(buffer, 256, stdin);
+    send(clientfd, buffer, strlen(buffer), 0);
+  }
 }

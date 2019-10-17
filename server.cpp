@@ -35,22 +35,24 @@ int main(int argc, char *argv[])
   }
 
   newsockfd = accept(sockfd, (sockaddr *)&address, (socklen_t *)&address);
+  while (newsockfd >= 0)
+  {
+    int read_result = read(newsockfd, buffer, 256);
+    if (read_result < 0)
+    {
+      perror("Error reading from socket");
+      exit(-1);
+    }
+
+    printf("%s", buffer);
+    memset(buffer, 0, 256);
+  }
+
   if (newsockfd < 0)
   {
     perror("Error accepting connection");
     exit(-1);
   }
-
-  int read_result = read(newsockfd, buffer, 256);
-  if (read_result < 0)
-  {
-    perror("Error reading from socket");
-    exit(-1);
-  }
-
-  printf("%s", buffer);
-
-  // Error check socket
 
   return 0;
 }
